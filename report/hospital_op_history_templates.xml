@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--pdf report template-->
+        <template id="report_out_patient_pdf">
+            <t t-call="web.external_layout">
+                <t t-call="web.html_container">
+                    <div class="page">
+                        <div>
+                            <div>
+                                <h2>Medical Report</h2>
+                            </div>
+                            <div>
+                                <h5>
+                                    <span t-esc="sequence_id"/>
+                                    <span t-esc="patient_id"/>
+                                </h5>
+                                <h5>
+                                    <span t-esc="doctor_id"/>
+                                </h5>
+                                <h6>
+                                    <span t-esc="from_date"/>
+                                </h6>
+                                <h6>
+                                    <span t-esc="to_date"/>
+                                </h6>
+                            </div>
+                            <br/>
+                        </div>
+                        <div>
+                            <table class="table text-left">
+                                <thead>
+                                    <tr>
+                                        <th>SL.No</th>
+                                        <th>OP</th>
+                                        <th>Patient Name</th>
+                                        <th>Date</th>
+                                        <th>Doctor</th>
+                                        <th>Department</th>
+                                        <th>Disease</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="i" t-value="1"/>
+                                    <t t-foreach="res" t-as="o">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="i"/>
+                                                <t t-set="i" t-value="i+1"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o['token_no']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o['p_name']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o['date']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o['doc_name']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o['dep_name']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o['disease']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

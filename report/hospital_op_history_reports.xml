@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="action_report_out_patient_pdf" model="ir.actions.report">
+            <field name="name">Patient History</field>
+            <field name="model">hospital.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hospital_management.report_out_patient_pdf</field>
+            <field name="report_file">hospital_management.report_out_patient_pdf</field>
+            <field name="binding_model_id" ref="model_hospital_consultation"/>
+            <field name="binding_type">report</field>
+        </record>
+<!--        <record id="action_report_out_patient_xls" model="ir.actions.report">-->
+<!--            <field name="name">Patient History Sheet</field>-->
+<!--            <field name="model">hospital.report.wizard</field>-->
+<!--            <field name="report_type">xlsx</field>-->
+<!--            <field name="report_name">hospital_management.report_name.xlsx</field>-->
+<!--            <field name="report_file">hospital_management.report_name.xlsx</field>-->
+<!--        </record>-->
+
+<!--        <report id="report_action_id"-->
+
+<!--          model="model.model"-->
+
+<!--          string="Custom XLS Report"-->
+
+<!--          report_type="xlsx"-->
+
+<!--          name="module_name.report_name.xlsx"-->
+
+<!--          file="module_name.report_name.xlsx"-->
+
+<!--          attachment_use="False"/>-->
+    </data>
+</odoo>

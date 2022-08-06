@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="seq_patient" model="ir.sequence">
+        <field name="name">Hospital Patient</field>
+        <field name="code">hospital.patient</field>
+        <field name="prefix">PID</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_consult" model="ir.sequence">
+        <field name="name">Hospital Consult Sequence</field>
+        <field name="code">hospital.consult</field>
+        <field name="prefix">CONS/</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_invoice" model="ir.sequence">
+        <field name="name">Hospital invoice</field>
+        <field name="code">hospital.invoice</field>
+        <field name="prefix">HSP/%(year)s/</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+</odoo>

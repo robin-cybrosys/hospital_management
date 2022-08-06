@@ -1,0 +1,359 @@
+from odoo import models, api
+
+
+class PatientReport(models.AbstractModel):
+    _name = 'report.hospital_management.report_patient_card'
+
+    # country_id = fields.Many2one('res.country', 'Customer Country', readonly=True)
+
+    @api.model
+    def _get_report_values(self, docids, data=None):
+        query = """select hospital_consultation.consultation, res_partner.name,hospital_consultation.date, 
+        hr_employee.name,hr_department.name,hospital_disease.disease from hospital_consultation inner join 
+        hospital_management on hospital_management.id = hospital_consultation.patient_card_id inner join res_partner 
+        on res_partner.id = hospital_management.patients_id inner join hr_employee on hr_employee.id = 
+        hospital_consultation.doctor_id inner join hr_department on hr_department.id = 
+        hospital_consultation.department_id inner join hospital_disease on hospital_disease.id = 
+        hospital_consultation.disease_id inner join res_company on res_company.id = hospital_management.company_id """
+        q1 = "where "
+        document = self.env['hospital.management'].browse(data['patient_id'])
+        flag = 0
+
+        if not data["patient_id"] and not data["doctor_id"] and not data["department_id"] and not data["disease"]:
+            query = """{}""".format(query)
+        if data["patient_id"]:
+            if flag == 0:
+                flag = flag + 1
+                query = """{} {} hospital_consultation.patient_card_id={p_id}""".format(query, q1,
+                                                                                        p_id=data["patient_id"])
+            else:
+                query = """{} and hospital_consultation.patient_card_id={p_id}""".format(query, p_id=data["patient_id"])
+        if data["doctor_id"]:
+            if flag == 0:
+                flag = flag + 1
+                query = """{} {} hospital_consultation.doctor_id={d_id}""".format(query, q1, d_id=data["doctor_id"])
+            else:
+                query = """{} and hospital_consultation.doctor_id={d_id}""".format(query, d_id=data["doctor_id"])
+        if data["department_id"]:
+            if flag == 0:
+                flag = flag + 1
+                query = """{} {} hospital_consultation.department_id={dept_id}""".format(query, q1,
+                                                                                         dept_id=data["department_id"])
+            else:
+                query = """{} and hospital_consultation.department_id={dept_id}""".format(query,
+                                                                                          dept_id=data["department_id"])
+        if data["to_date"]:
+            if flag == 0:
+                flag = flag + 1
+                query = """{} {} hospital_consultation.date<='{to_date}'""".format(query, q1, to_date=data["to_date"])
+            else:
+                query = """{} and hospital_consultation.date<='{to_date}'""".format(query, to_date=data["to_date"])
+        if data["from_date"]:
+            if flag == 0:
+                flag = flag + 1
+                query = """{} {} hospital_consultation.date>='{from_date}'""".format(query, q1,
+                                                                                     from_date=data["from_date"])
+            else:
+                query = """{} and hospital_consultation.date>='{from_date}'""".format(query,
+                                                                                      from_date=data["from_date"])
+        if data["disease"]:
+            if flag == 0:
+                flag = flag + 1
+                query = """{} {} hospital_consultation.disease_id={disease_id}""".format(query, q1,
+                                                                                         disease_id=data["disease"])
+            else:
+                query = """{} and hospital_consultation.disease_id={disease_id}""".format(query,
+                                                                                          disease_id=data["disease"])
+        self.env.cr.execute(query)
+        docs = self.env.cr.fetchall()
+        if not docs:
+            docs.append(1)
+        return {
+            # 'doc_model': self.env['hospital.consultation'],
+            'docs': docs,
+            'document': document,
+            'data': data,
+            'company_id': company_id,
+        }
+
+        #     if data["patient_id"] == False and data["doctor_id"] != False and data["department_id"] == False and \
+        #             data["disease"] == False:
+        #         exe_query = """{} {} {} inner join hr_employee on hospital_consultation.doctor_id={doctor_id} and hr_employee.id = hospital_consultation.doctor_id {} {}""".format(
+        #             query, q1, q2, q4, q5, doctor_id=data['doctor_id'])
+        #     if data["patient_id"] == False and data["doctor_id"] == False and data["department_id"] != False and \
+        #             data["disease"] == False:
+        #         exe_query = """{} {} {} {} inner join hr_department on hospital_consultation.department_id={dept_id} and hr_department.id = hospital_consultation.department_id {}""".format(
+        #             query, q1, q2, q3, q5, dept_id=data['department_id'])
+        #     if data["patient_id"] == False and data["doctor_id"] == False and data["department_id"] == False and \
+        #             data["disease"] != False:
+        #         exe_query = """{} {} {} {} {} inner join hospital_disease on hospital_consultation.disease_id = {disease_id} and hospital_disease.id = hospital_consultation.disease_id""".format(
+        #             query, q1, q2, q3, q4, disease_id=data["disease"])
+        #
+        # # if data["to_date"] != False and data["from_date"] != False:
+        # #     print("date")
+        #     if data["patient_id"] == False and data["doctor_id"] == False and data["department_id"] == False and \
+        #             data["disease"] == False:
+        #         exe_query = """{} {} {} {} {} {} where hospital_consultation.date between '{from_date}' and '{to_date}'""".format(
+        #             query, q1, q2, q3, q4, q5, to_date=data["to_date"], from_date=data["from_date"])
+        #     if data["patient_id"] != False and data["doctor_id"] == False and data["department_id"] == False and \
+        #             data["disease"] == False:
+        #         exe_query = """{} inner join hospital_management on hospital_consultation.patient_card_id = {p_id} and hospital_management.id = hospital_consultation.patient_card_id {} {} {} {} where hospital_consultation.date between '{from_date}' and '{to_date}'""".format(
+        #             query, q2, q3, q4, q5, p_id=data['patient_id'], to_date=data["to_date"],
+        #             from_date=data["from_date"])
+        #     if data["patient_id"] == False and data["doctor_id"] != False and data["department_id"] == False and \
+        #             data["disease"] == False:
+        #         exe_query = """{} {} {} inner join hr_employee on hospital_consultation.doctor_id={doctor_id} and hr_employee.id = hospital_consultation.doctor_id {} {} where hospital_consultation.date between '{from_date}' and '{to_date}'""".format(
+        #             query, q1, q2, q4, q5, doctor_id=data['doctor_id'], to_date=data["to_date"],
+        #             from_date=data["from_date"])
+        #     if data["patient_id"] == False and data["doctor_id"] == False and data["department_id"] != False and \
+        #             data["disease"] == False:
+        #         exe_query = """{} {} {} {} inner join hr_department on hospital_consultation.department_id={dept_id} and hr_department.id = hospital_consultation.department_id {} where hospital_consultation.date between '{from_date}' and '{to_date}'""".format(
+        #             query, q1, q2, q3, q5, dept_id=data['department_id'], to_date=data["to_date"],
+        #             from_date=data["from_date"])
+        #     if data["patient_id"] == False and data["doctor_id"] == False and data["department_id"] == False and \
+        #             data["disease"] != False:
+        #         exe_query = """{} {} {} {} {} inner join hospital_disease on hospital_consultation.disease_id = {disease_id} and hospital_disease.id = hospital_consultation.disease_id  where hospital_consultation.date between '{from_date}' and '{to_date}'""".format(
+        #             query, q1, q2, q3, q4, disease_id=data["disease"], to_date=data["to_date"],
+        #             from_date=data["from_date"])
+
+# if data["patient_id"] != False and data["doctor_id"] != False and data["department_id"] != False and \
+#         data["disease"] != False and data["to_date"] != False and data["from_date"] != False:
+#     print("first")
+#     query = """select hospital_consultation.consultation,res_partner.name,hospital_consultation.date,hr_employee.name, hr_department.name, hospital_disease.disease, hospital_management.patients_id,
+#     hospital_management.patients_id from hospital_consultation
+#     inner join hr_employee on hospital_consultation.patient_card_id = {p_id} and hospital_consultation.date between '{from_date}' and '{to_date}' and hr_employee.id = {doctor_id} and hr_employee.id=hospital_consultation.doctor_id
+#     inner join hr_department on hr_department.id ={dept_id} and hr_department.id = hospital_consultation.department_id
+#     inner join hospital_disease on hospital_disease.id = {disease_id} and hospital_disease.id = hospital_consultation.disease_id
+#     inner join hospital_management on hospital_management.id = hospital_consultation.patient_card_id
+#     inner join res_partner on res_partner.id= hospital_management.patients_id""".format(
+#         p_id=data["patient_id"], doctor_id=data["doctor_id"], dept_id=data["department_id"],
+#         disease_id=data["disease"], to_date=data['to_date'], from_date=data['from_date'])
+#     self.env.cr.execute(query)
+#     docs = self.env.cr.fetchall()
+#     document = self.env['hospital.management'].browse(data['patient_id'])
+#     if docs == []:
+#         docs.append(1)
+#         return {
+#             'doc_ids': docs,
+#             'doc_model': self.env['hospital.op'],
+#             'docs': docs,
+#             'data': data,
+#         }
+#     else:
+#         return {
+#             'doc_ids': docs,
+#             'document': document,
+#             # 'entry': entry,
+#             'doc_model': self.env['hospital.op'],
+#             'docs': docs,
+#             'data': data,
+#         }
+# elif data["patient_id"] != False and data["doctor_id"] == False and data["department_id"] == False and \
+#         data["disease"] == False and data["to_date"] == False and data["from_date"] == False:
+#     query = """select hospital_consultation.consultation, res_partner.name, hospital_consultation.date, hr_employee.name,
+#     hr_department.name, hospital_disease.disease, hospital_management.patients_id from hospital_consultation
+#     inner join hr_employee on hospital_consultation.patient_card_id= {p_id} and  hr_employee.id = hospital_consultation.doctor_id
+#     inner join hr_department on hr_department.id = hospital_consultation.department_id
+#     inner join hospital_disease on hospital_disease.id = hospital_consultation.disease_id
+#     inner join hospital_management on hospital_management.id = hospital_consultation.patient_card_id
+#     inner join res_partner on res_partner.id = hospital_management.patients_id""".format(
+#         p_id=data["patient_id"])
+#     self.env.cr.execute(query)
+#     docs = self.env.cr.fetchall()
+#     print(docs)
+#     document = self.env['hospital.management'].browse(data['patient_id'])
+#     if docs == []:
+#         docs.append(1)
+#         return {
+#             'doc_ids': docs,
+#             'doc_model': self.env['hospital.consultation'],
+#             'docs': docs,
+#             'data': data,
+#         }
+#     else:
+#         return {
+#             'doc_ids': docs,
+#             'document': document,
+#             'doc_model': self.env['hospital.consultation'],
+#             'docs': docs,
+#             'data': data,
+#         }
+# elif data["patient_id"] == False and data["doctor_id"] != False and data["department_id"] == False and data[
+#     "disease"] == False and data["to_date"] == False and data["from_date"] == False:
+#     print("hey")
+#     query = """select hospital_consultation.consultation, res_partner.name, hospital_consultation.date, hr_employee.name, hr_department.name, hospital_disease.disease, hospital_management.patients_id from hospital_consultation inner join hr_employee on hospital_consultation.doctor_id= {doctor_id} and  hr_employee.id = hospital_consultation.doctor_id
+#     inner join hr_department on hr_department.id = hospital_consultation.department_id
+#     inner join hospital_disease on hospital_disease.id = hospital_consultation.disease_id
+#     inner join hospital_management on hospital_management.id = hospital_consultation.patient_card_id
+#     inner join res_partner on res_partner.id = hospital_management.patients_id""".format(
+#         doctor_id=data["doctor_id"])
+#     self.env.cr.execute(query)
+#     docs = self.env.cr.fetchall()
+#     print(docs)
+#     if docs == []:
+#         docs.append(1)
+#         return {
+#             'doc_ids': docs,
+#             'doc_model': self.env['hospital.consultation'],
+#             'docs': docs,
+#             'data': data,
+#         }
+#     else:
+#         return {
+#             'doc_ids': docs,
+#             'doc_model': self.env['hospital.op'],
+#             'docs': docs,
+#             'data': data,
+#         }
+# elif data["patient_id"] == False and data["doctor_id"] == False and data["department_id"] == False and \
+#         data["disease"] != False and data["to_date"] == False and data["from_date"] == False:
+#     query = """select hospital_consultation.consultation, res_partner.name, hospital_consultation.date, hr_employee.name, hr_department.name, hospital_disease.disease, hospital_management.patients_id from hospital_consultation
+#     inner join hr_employee on hospital_consultation.disease_id = {disease_id} and  hr_employee.id = hospital_consultation.doctor_id inner join hr_department on hr_department.id = hospital_consultation.department_id
+#     inner join hospital_disease on hospital_disease.id = hospital_consultation.disease_id
+#     inner join hospital_management on hospital_management.id = hospital_consultation.patient_card_id
+#     inner join res_partner on res_partner.id = hospital_management.patients_id""".format(
+#         disease_id=data["disease"])
+#     self.env.cr.execute(query)
+#     docs = self.env.cr.fetchall()
+#     if docs == []:
+#         docs.append(1)
+#         return {
+#             'doc_ids': docs,
+#             'doc_model': self.env['hospital.consultation'],
+#             'docs': docs,
+#             'data': data,
+#         }
+#     else:
+#         return {
+#             'doc_ids': docs,
+#             'doc_model': self.env['hospital.op'],
+#             'docs': docs,
+#             'data': data,
+#         }
+# elif data["patient_id"] == False and data["doctor_id"] == False and data["department_id"] != False and \
+#         data["disease"] == False and data["to_date"] == False and data["from_date"] == False:
+#     query = """select hospital_consultation.consultation, res_partner.name, hospital_consultation.date, hr_employee.name, hr_department.name, hospital_disease.disease, hospital_management.patients_id from hospital_consultation
+#     inner join hr_employee on hospital_consultation.department_id = {department_id} and  hr_employee.id = hospital_consultation.doctor_id inner join hr_department on hr_department.id = hospital_consultation.department_id
+#     inner join hospital_disease on hospital_disease.id = hospital_consultation.disease_id
+#     inner join hospital_management on hospital_management.id = hospital_consultation.patient_card_id
+#     inner join res_partner on res_partner.id = hospital_management.patients_id""".format(
+#         department_id=data["department_id"])
+#     self.env.cr.execute(query)
+#     docs = self.env.cr.fetchall()
+#     if docs == []:
+#         docs.append(1)
+#         return {
+#             'doc_ids': docs,
+#             'doc_model': self.env['hospital.consultation'],
+#             'docs': docs,
+#             'data': data,
+#         }
+#     else:
+#         return {
+#             'doc_ids': docs,
+#             'doc_model': self.env['hospital.op'],
+#             'docs': docs,
+#             'data': data,
+#         }
+# elif data["patient_id"] != False and data["doctor_id"] == False and data["department_id"] == False and \
+#         data["disease"] == False and data["to_date"] != False and data["from_date"] != False:
+#     query = """select hospital_consultation.consultation, res_partner.name, hospital_consultation.date, hr_employee.name,
+#                 hr_department.name, hospital_disease.disease, hospital_management.patients_id from hospital_consultation
+#                 inner join hr_employee on hospital_consultation.patient_card_id= {p_id} and hospital_consultation.date between '{from_date}' and '{to_date}'
+#                 and  hr_employee.id = hospital_consultation.doctor_id
+#                 inner join hr_department on hr_department.id = hospital_consultation.department_id
+#                 inner join hospital_disease on hospital_disease.id = hospital_consultation.disease_id
+#                 inner join hospital_management on hospital_management.id = hospital_consultation.patient_card_id
+#                 inner join res_partner on res_partner.id = hospital_management.patients_id""".format(
+#         p_id=data["patient_id"], to_date=data['to_date'], from_date=data['from_date'])
+#     self.env.cr.execute(query)
+#     docs = self.env.cr.fetchall()
+#     print(docs)
+#     document = self.env['hospital.management'].browse(data['patient_id'])
+#     if docs == []:
+#         docs.append(1)
+#         return {
+#             'doc_ids': docs,
+#             'doc_model': self.env['hospital.consultation'],
+#             'docs': docs,
+#             'data': data,
+#         }
+#     return {
+#         'doc_ids': docs,
+#         'doc_model': self.env['hospital.op'],
+#         'docs': docs,
+#         'data': data,
+#     }
+#
+# elif data["patient_id"] == False and data["doctor_id"] != False and data["department_id"] == False and data[
+#     "disease"] == False and data["to_date"] != False and data["from_date"] != False:
+#     print("hey")
+#     query = """select hospital_consultation.consultation, res_partner.name, hospital_consultation.date, hr_employee.name, hr_department.name, hospital_disease.disease, hospital_management.patients_id from hospital_consultation
+#             inner join hr_employee on hospital_consultation.doctor_id= {doctor_id} and hospital_consultation.date between '{from_date}' and '{to_date}'
+#             and  hr_employee.id = hospital_consultation.doctor_id
+#             inner join hr_department on hr_department.id = hospital_consultation.department_id
+#             inner join hospital_disease on hospital_disease.id = hospital_consultation.disease_id
+#             inner join hospital_management on hospital_management.id = hospital_consultation.patient_card_id
+#             inner join res_partner on res_partner.id = hospital_management.patients_id""".format(
+#         doctor_id=data["doctor_id"], to_date=data['to_date'], from_date=data['from_date'])
+#     self.env.cr.execute(query)
+#     docs = self.env.cr.fetchall()
+#     print(docs)
+#     return {
+#         'doc_ids': docs,
+#         'doc_model': self.env['hospital.op'],
+#         'docs': docs,
+#         'data': data,
+#     }
+#
+# elif data["patient_id"] == False and data["doctor_id"] == False and data["department_id"] == False and \
+#      data["disease"] != False and data["to_date"] != False and data["from_date"] != False:
+#     query = """select hospital_consultation.consultation, res_partner.name, hospital_consultation.date, hr_employee.name, hr_department.name, hospital_disease.disease, hospital_management.patients_id from hospital_consultation
+#                 inner join hr_employee on hospital_consultation.disease_id = {disease_id} and hospital_consultation.date between '{from_date}' and '{to_date}' and  hr_employee.id = hospital_consultation.doctor_id inner join hr_department on hr_department.id = hospital_consultation.department_id
+#                 inner join hospital_disease on hospital_disease.id = hospital_consultation.disease_id
+#                 inner join hospital_management on hospital_management.id = hospital_consultation.patient_card_id
+#                 inner join res_partner on res_partner.id = hospital_management.patients_id""".format(
+#         disease_id=data["disease"], to_date=data['to_date'], from_date=data['from_date'])
+#     self.env.cr.execute(query)
+#     docs = self.env.cr.fetchall()
+#     print(docs)
+#     return {
+#         'doc_ids': docs,
+#         'doc_model': self.env['hospital.op'],
+#         'docs': docs,
+#         'data': data,
+#     }
+# elif data["patient_id"] == False and data["doctor_id"] == False and data["department_id"] != False and \
+#      data["disease"] == False and data["to_date"] != False and data["from_date"] != False:
+#     query = """select hospital_consultation.consultation, res_partner.name, hospital_consultation.date, hr_employee.name, hr_department.name, hospital_disease.disease, hospital_management.patients_id from hospital_consultation
+#                 inner join hr_employee on hospital_consultation.department_id = {department_id} and hospital_consultation.date between '{from_date}' and '{to_date}' and  hr_employee.id = hospital_consultation.doctor_id inner join hr_department on hr_department.id = hospital_consultation.department_id
+#                 inner join hospital_disease on hospital_disease.id = hospital_consultation.disease_id
+#                 inner join hospital_management on hospital_management.id = hospital_consultation.patient_card_id
+#                 inner join res_partner on res_partner.id = hospital_management.patients_id""".format(
+#         department_id=data["department_id"], to_date=data['to_date'], from_date=data['from_date'])
+#     self.env.cr.execute(query)
+#     docs = self.env.cr.fetchall()
+#     print(docs)
+#     return {
+#         'doc_ids': docs,
+#         'doc_model': self.env['hospital.consultation'],
+#         'docs': docs,
+#         'data': data,
+#     }
+# elif data["patient_id"] == False and data["doctor_id"] == False and data["department_id"] == False and \
+#      data["disease"] == False and data["to_date"] != False and data["from_date"] != False:
+#     query = """select hospital_consultation.consultation, res_partner.name, hospital_consultation.date, hr_employee.name, hr_department.name, hospital_disease.disease, hospital_management.patients_id from hospital_consultation
+#                 inner join hr_employee on hospital_consultation.date between '{from_date}' and '{to_date}' and  hr_employee.id = hospital_consultation.doctor_id inner join hr_department on hr_department.id = hospital_consultation.department_id
+#                 inner join hospital_disease on hospital_disease.id = hospital_consultation.disease_id
+#                 inner join hospital_management on hospital_management.id = hospital_consultation.patient_card_id
+#                 inner join res_partner on res_partner.id = hospital_management.patients_id""".format(
+#         to_date=data['to_date'], from_date=data['from_date'])
+#     self.env.cr.execute(query)
+#     docs = self.env.cr.fetchall()
+#     print(docs)
+#     return {
+#         'doc_ids': docs,
+#         'doc_model': self.env['hospital.op'],
+#         'docs': docs,
+#         'data': data,
+# }

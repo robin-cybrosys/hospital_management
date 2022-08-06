@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--  tree view  -->
+        <record id="op_list" model="ir.ui.view">
+            <field name="name">appointment list</field>
+            <field name="model">hospital.appointment</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="token_no" readonly="True"/>
+                    <field name="patient_card_id"/>
+                    <field name="patient_id"/>
+                    <field name="doctor_id" string="Doctor"/>
+                </tree>
+            </field>
+        </record>
+        <!--  form_view  -->
+        <record id="appointment_form" model="ir.ui.view">
+            <field name="name">appointment form</field>
+            <field name="model">hospital.appointment</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button class="btn-primary"
+                                name="appointment_confirm_btn" type="object"
+                                string="Confirm"
+                                attrs="{'invisible': [('status', '!=', 'draft_state')]}"/>
+                        <button class="btn-primary" name="btn_to_op"
+                                type="object" string="Convert To OP"
+                                context="{'patient_card_id': patient_card_id,
+                                'doctor_id':doctor_id,'token_no':token_no}"
+                                attrs="{'invisible': [('status', '!=', 'appointment_state')]}"/>
+                        <button class="btn-confirm" name="reset_draft_btn"
+                                type="object" string="Reset To Draft"
+                                attrs="{'invisible': [('status', '!=', 'op_state')]}"/>
+                        <field name="status" string="Status"
+                               widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" attrs="{'invisible':
+                        [('appointment_op_count', '=', 0)]}">
+                            <button class=" oe_stat_button" name="view_op_btn"
+                                    string="OP Tickets:" type="object"
+                                    icon="fa-ticket">
+                                <field name="appointment_op_count"/>
+                            </button>
+                        </div>
+                        <h1>
+                            <field name="token_no" string="Token No"
+                                   readonly="True"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="patient_card_id"
+                                       string="Patient Card"/>
+                                <field name="patient_id" string="Patient"
+                                       readonly="True"/>
+                                <field name="doctor_id" string="Doctor"/>
+                            </group>
+                            <group>
+                                <field name="date" string="Date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- op kanban view-->
+        <record model="ir.ui.view" id="view_appointment_kanban">
+            <field name="name">appointment_cards kanban</field>
+            <field name="model">hospital.appointment</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" sample="1">
+                    <field name="patient_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_record_top mb16">
+                                    <div class="o_kanban_record_headings mt4">
+                                        <strong class="o_kanban_record_title">
+                                            <span>
+                                                <strong>
+                                                    <field name="token_no"
+                                                           widget="label_selection"/>
+                                                    <t t-esc="record.patient_id.value"/>
+                                                </strong>
+                                                <br/>
+                                            </span>
+                                        </strong>
+                                    </div>
+                                    <strong>
+                                        <field name="patient_card_id"/>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left text-muted"/>
+                                    <div class="oe_kanban_bottom_right">
+                                        <strong>
+                                            <field name="doctor_id"
+                                                   widget="badge"/>
+                                        </strong>
+                                        <br>
+                                            <field name="status"
+                                                   widget="badge"/>
+                                        </br>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+    </data>
+</odoo>

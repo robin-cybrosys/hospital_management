@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hospital_reporting_wizard" model="ir.ui.view">
+            <field name="name">Pdf Report</field>
+            <field name="model">hospital.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="My Form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="patient_id"/>
+                                <field name="from_date"/>
+                                <field name="to_date"/>
+                            </group>
+                            <group>
+                                <field name="doctor_id"/>
+                                <field name="dept_id"/>
+                                <field name="disease_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <!--Buttons-->
+                        <button name="print_pdf_report" string="Pdf Report"
+                                type="object"
+                                class="oe_highlight"/>
+                        <button name="print_xls_report" string="Xlsx Report"
+                                type="object"
+                                class="oe_highlight"/>
+                        <button string="Cancel" special="cancel"
+                                class="oe_highlight"
+                                type="object" data-hotkey="q"/>
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+          <!--DEPARTMENT DEMO DATA -->
+          <record id="dep_management_test" model="hr.department">
+              <field name="name">Eye Care</field>
+          </record>
+
+          <!--JOB DEMO DATA -->
+          <record id="job_demo_data" model="hr.job">
+              <field name="name">Doctor</field>
+              <field name="department_id" ref="dep_management_test"/>
+              <field name="description">Mbbs Frcs</field>
+              <field name="requirements">Requirements</field>
+          </record>
+
+          <!--EMPLOYEE CATEGORY DEMO DATA -->
+          <record id="employee_category_demo" model="hr.employee.category">
+              <field name="name">Health Care</field>
+              <field name="color" eval="1"/>
+          </record>
+
+         <!--EMPLOYEE  DEMO DATA -->
+          <record id="employee_demo" model="hr.employee">
+              <field name="name">Dr.Abhijith</field>
+              <field name="department_id" ref="dep_management_test"/>
+              <field name="job_id" ref="job_demo_data"/>
+              <field name="fee">100</field>
+              <field name="category_ids" eval="[(6, 0, [ref('employee_category_demo')])]"/>
+          </record>
+    </data>
+</odoo>
