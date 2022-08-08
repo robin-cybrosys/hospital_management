@@ -13,7 +13,7 @@ class HospitalAppointment(models.Model):
         'hospital.management', string="Patient Card",
         help="Enter name of the Patient")
     patient_id = fields.Many2one(
-        related='patient_card_id.patient_id', required=True,
+        related='patient_card_id.patient_id',
         string='Patient',
         readonly=True)
     doctor_id = fields.Many2one(
