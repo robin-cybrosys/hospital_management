@@ -10,11 +10,12 @@ class HospitalAppointment(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     patient_card_id = fields.Many2one(
-        'hospital.management', required=True, string="Patient Card",
+        'hospital.management', string="Patient Card",
         help="Enter name of the Patient")
-    patient_id = fields.Many2one(related='patient_card_id.patient_id',
-                                 string='Patient',
-                                 readonly=True)
+    patient_id = fields.Many2one(
+        related='patient_card_id.patient_id', required=True,
+        string='Patient',
+        readonly=True)
     doctor_id = fields.Many2one(
         'hr.employee', domain="[('job_id', '=', 'Doctor')]", required=True)
     doctor_dept_id = fields.Many2one(
