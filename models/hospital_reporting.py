@@ -50,7 +50,7 @@ class HospitalReporting(models.TransientModel):
             inner join hospital_out_patient t6 on t6.id=t2.patient_card_id
             """
         where = "where "
-        # setting flag for checking&applying where condition
+        # setting flag for checking & applying where condition
         flag = 0
         # condition1: if no filter is used
         if not {patient} and not {doctor} and not {dept} and not {disease}:
@@ -140,9 +140,6 @@ class HospitalReporting(models.TransientModel):
 
     # xls()
     def print_xls_report(self):
-        # pass
-        # if self.from_date >= self.to_date:
-        #     raise ValidationError('From Date must be less than To Date')
         res = self.report_filters()
 
         data = {
@@ -155,8 +152,6 @@ class HospitalReporting(models.TransientModel):
             'dept_id': self.dept_id.name,
             'res': res
         }
-        # print(data, "ssdsss")
-        # print(data, "print_xlsx")
         return {
             'type': 'ir.actions.report',
             'data': {'model': 'hospital.report.wizard',
@@ -169,16 +164,9 @@ class HospitalReporting(models.TransientModel):
         }
 
     def get_xlsx_report(self, data, response):
-        print("---data", data, "data----")
-        # print("---res", data['res'], "res---")
-        # for o in data:
-        #     if not data['']:
-        #         print(o['doc_name'])
-        # for o in data['res']:
-        #     print(o['token_no'])
-        #     print(o['p_name'])
-        #     print(o['date'])
+        # print("---data", data, "data----")
         output = io.BytesIO()
+
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
         worksheet = workbook.add_worksheet()
 
@@ -219,8 +207,6 @@ class HospitalReporting(models.TransientModel):
             worksheet.write('F7', 'Department:', detail_format)
             worksheet.merge_range('G7:H7', data['dept_id'], data_format)
 
-
-
         worksheet.write('B10', 'SL.No', title_format)
         worksheet.write('C10', 'OP', title_format)
         worksheet.write('D10', 'Patient', title_format)
@@ -239,10 +225,8 @@ class HospitalReporting(models.TransientModel):
             worksheet.write(row, col + 4, o['doc_name'], txt)
             worksheet.write(row, col + 5, o['dep_name'], txt)
             worksheet.write(row, col + 6, o['disease'], txt)
-
             row += 1
             seq += 1
-
         workbook.close()
         output.seek(0)
         response.stream.write(output.read())

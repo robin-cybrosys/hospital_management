@@ -7,9 +7,7 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <widget name="web_ribbon" title="Archived"
-                                bg_color="bg-danger"
-                                attrs="{'invisible': [('active', '=', True)]}"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
                         <h1>
                             <field name="reference_no" readonly="True"/>
                         </h1>
@@ -18,22 +16,18 @@
                                 <field name="patient_id" string="Patient"/>
                                 <label for="street" string="Address"/>
                                 <div class="o_address_format">
-                                    <field name="street"
-                                           class="o_address_street"/>
-                                    <field name="street2"
-                                           class="o_address_street"/>
-                                    <field name="city"
-                                           class="o_address_city"/>
-                                    <field name="zip"
-                                           class="o_address_zip"/>
+                                    <field name="street" class="o_address_street"/>
+                                    <field name="street2" class="o_address_street"/>
+                                    <field name="city" class="o_address_city"/>
+                                    <field name="zip" class="o_address_zip"/>
                                     <field name="state_id"/>
-                                    <field name="country_id"
-                                           class="o_address_country"/>
+                                    <field name="country_id" class="o_address_country"/>
                                 </div>
                             </group>
                             <group>
                                 <field name="patient_mobile" string="mobile"/>
                                 <field name="patient_phone" string="Phone"/>
+                                <field name="email" string="Email"/>
                                 <field name="gender"/>
                                 <field name="dob"/>
                                 <field name="age" string="Age"/>
@@ -46,12 +40,9 @@
                                 <field name="op_ids">
                                     <tree>
                                         <field name="date" string="Date"/>
-                                        <field name="token_no" string="Token No"
-                                               readonly="True"/>
-                                        <field name="doctor_id"
-                                               string="Doctor "/>
-                                        <field name="doctor_dept_id"
-                                               string="Department "/>
+                                        <field name="token_no" string="Token No" readonly="True"/>
+                                        <field name="doctor_id" string="Doctor "/>
+                                        <field name="doctor_dept_id" string="Department "/>
                                     </tree>
                                 </field>
                             </page>
@@ -86,8 +77,7 @@
                                                     <t t-esc="record.patient_id.value"/>
                                                 </strong>
                                                 <br/>
-                                                <field name="blood_group"
-                                                       widget="label_selection"/>
+                                                <field name="blood_group" widget="label_selection"/>
                                                 <!-- </br> -->
                                                 <field name="gender"/>
                                             </span>
@@ -102,8 +92,7 @@
                                     </div>
                                     <div class="oe_kanban_bottom_right">
                                         <div class="o_kanban_image">
-                                            <field name="image" widget="image"
-                                                   class="oe_right oe_avatar"/>
+                                            <field name="image" widget="image" class="oe_right oe_avatar"/>
                                         </div>
                                     </div>
                                 </div>

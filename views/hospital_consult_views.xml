@@ -2,7 +2,6 @@
 <odoo>
     <data>
         <!-- list view  -->
-
         <record id="consultation_list" model="ir.ui.view">
             <field name="name">consultation list</field>
             <field name="model">hospital.consultation</field>
@@ -86,29 +85,22 @@
 
                 <form>
                     <header>
-                        <button class="btn-primary" name="consult_btn"
-                                type="object" string="Confirm"
-                                attrs="{'invisible': [('status','=', 'confirm_state')]}">
+                        <button class="btn-primary" name="consult_btn" type="object" string="Confirm" attrs="{'invisible': [('status','=', 'confirm_state')]}">
 
                         </button>
-                        <field name="status" string="Status"
-                               widget="statusbar"/>
+                        <field name="status" string="Status" widget="statusbar"/>
                     </header>
                     <sheet>
                         <h1>
-                            <field name="consultation_id" string="Token No"
-                                   readonly="True"/>
+                            <field name="consultation_id" string="Token No" readonly="True"/>
                         </h1>
                         <group>
                             <group>
                                 <field name="patient_card_id" string="OP"/>
-                                <field name="patient_id" string="patient"
-                                       readonly="True"/>
-                                <field name="consultation_type"
-                                       string="Consultation Type"/>
+                                <field name="patient_id" string="patient" readonly="True"/>
+                                <field name="consultation_type" string="Consultation Type"/>
                                 <field name="doctor_id" string="Doctor"/>
-                                <field name="doctor_dept_id"
-                                       string="Department"/>
+                                <field name="doctor_dept_id" string="Department"/>
                             </group>
                             <group>
                                 <field name="date" string="Date"/>
@@ -116,8 +108,7 @@
                                 <field name="diagnosis" string="Diagnosis"/>
 
                             </group>
-                            <field name="treatment_ids" string="Treatment"
-                                   placeholder="Treatment">
+                            <field name="treatment_ids" string="Treatment" placeholder="Treatment">
                                 <tree editable="bottom">
                                     <field name="medicine_id"/>
                                     <field name="dosage"/>

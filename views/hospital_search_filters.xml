@@ -1,97 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <!--   hospital.management search-->
-        <record model="ir.ui.view" id="hospital_search">
-            <field name="name">hospital search</field>
-            <field name="model">hospital.management</field>
-            <field name="arch" type="xml">
-                <search>
-                    <!--search-->
-                    <field name="patient_id" string="Patient"/>
-                    <field name="reference_no" string="Patient Card"/>
-                    <field name="blood_group"/>
-                    <field name="gender"/>
-                    <!--filter-->
-                    <filter string="Male" name="gender"
-                            domain="[('gender', '=', 'male')]"/>
-                    <filter string="Female" name="gender"
-                            domain="[('gender', '=', 'female')]"/>
-                    <filter string="Archived" name="filter_archived"
-                            domain="[('active', '=', False)]"/>
-                    <!--Group by-->
-                    <filter string="Blood Group" name="blood_group"
-                            context="{'group_by':'blood_group'}"/>
-                </search>
-            </field>
-        </record>
-        <!--   hospital.out_patient search-->
-        <record model="ir.ui.view" id="hospital_op_search">
-            <field name="name">hospital op_search</field>
-            <field name="model">hospital.out_patient</field>
-            <field name="arch" type="xml">
-                <search>
-                    <!--search-->
-                    <field name="patient_id" string="Patient"/>
-                    <field name="patient_card_id" string="Patient Card"/>
-                    <field name="blood_group"/>
-                    <field name="gender"/>
-                    <!--filter-->
-                    <filter string="Male" name="gender"
-                            domain="[('gender', '=', 'male')]"/>
-                    <filter string="Female" name="gender"
-                            domain="[('gender', '=', 'female')]"/>
-                    <filter string="Archived" name="filter_archived"
-                            domain="[('active', '=', False)]"/>
-                    <!--Group by-->
-                    <filter string="Blood Group" name="blood_group"
-                            context="{'group_by':'blood_group'}"/>
-                </search>
-            </field>
-        </record>
-        <!--   hospital.appointment search-->
-        <record model="ir.ui.view" id="hospital_appointment_search">
-            <field name="name">hospital appointment_search</field>
-            <field name="model">hospital.appointment</field>
-            <field name="arch" type="xml">
-                <search>
-                    <!--search-->
-                    <field name="patient_id" string="Patient"/>
-                    <field name="patient_card_id" string="Patient Card"/>
-                    <field name="token_no" string="Token"/>
-                    <!--filter-->
-                    <filter string="Appointment" name="status"
-                            domain="[('status', '=', 'appointment_state')]"/>
-                    <filter string="OP" name="status"
-                            domain="[('status', '=', 'op_state')]"/>
-                    <filter string="Archived" name="filter_archived"
-                            domain="[('active', '=', False)]"/>
-                    <!--Group by-->
-                    <filter string="Doctor" name="doctor_id"
-                            context="{'group_by':'doctor_id'}"/>
-                    <filter string="Stage" name="status"
-                            context="{'group_by':'status'}"/>
-                </search>
-            </field>
-        </record>
-        <!--   hospital.consultation search-->
-        <record model="ir.ui.view" id="hospital_consultation_search">
-            <field name="name">hospital consultation_search</field>
-            <field name="model">hospital.consultation</field>
-            <field name="arch" type="xml">
-                <search>
-                    <!--search-->
-                    <field name="patient_id" string="Patient"/>
-                    <field name="patient_card_id" string="Patient Card"/>
-                    <field name="consultation_id" string="Token"/>
-                    <!--filter-->
-                    <filter string="Archived" name="filter_archived"
-                            domain="[('active', '=', False)]"/>
-                    <!--Group by-->
-                    <filter string="Consultation Type" name="consultation_type"
-                            context="{'group_by':'consultation_type'}"/>
-                </search>
-            </field>
-        </record>
-    </data>
+        <data>
+                <!--   hospital.management search-->
+                <record model="ir.ui.view" id="hospital_search">
+                        <field name="name">hospital search</field>
+                        <field name="model">hospital.management</field>
+                        <field name="arch" type="xml">
+                                <search>
+                                        <!--search-->
+                                        <field name="patient_id" string="Patient"/>
+                                        <field name="reference_no" string="Patient Card"/>
+                                        <field name="blood_group"/>
+                                        <field name="gender"/>
+                                        <!--filter-->
+                                        <filter string="Male" name="gender" domain="[('gender', '=', 'male')]"/>
+                                        <filter string="Female" name="gender" domain="[('gender', '=', 'female')]"/>
+                                        <filter string="Archived" name="filter_archived" domain="[('active', '=', False)]"/>
+                                        <!--Group by-->
+                                        <filter string="Blood Group" name="blood_group" context="{'group_by':'blood_group'}"/>
+                                </search>
+                        </field>
+                </record>
+                <!--   hospital.out_patient search-->
+                <record model="ir.ui.view" id="hospital_op_search">
+                        <field name="name">hospital op_search</field>
+                        <field name="model">hospital.out_patient</field>
+                        <field name="arch" type="xml">
+                                <search>
+                                        <!--search-->
+                                        <field name="patient_id" string="Patient"/>
+                                        <field name="patient_card_id" string="Patient Card"/>
+                                        <field name="blood_group"/>
+                                        <field name="gender"/>
+                                        <!--filter-->
+                                        <filter string="Male" name="gender" domain="[('gender', '=', 'male')]"/>
+                                        <filter string="Female" name="gender" domain="[('gender', '=', 'female')]"/>
+                                        <filter string="Archived" name="filter_archived" domain="[('active', '=', False)]"/>
+                                        <!--Group by-->
+                                        <filter string="Blood Group" name="blood_group" context="{'group_by':'blood_group'}"/>
+                                </search>
+                        </field>
+                </record>
+                <!--   hospital.appointment search-->
+                <record model="ir.ui.view" id="hospital_appointment_search">
+                        <field name="name">hospital appointment_search</field>
+                        <field name="model">hospital.appointment</field>
+                        <field name="arch" type="xml">
+                                <search>
+                                        <!--search-->
+                                        <field name="patient_id" string="Patient"/>
+                                        <field name="patient_card_id" string="Patient Card"/>
+                                        <field name="token_no" string="Token"/>
+                                        <!--filter-->
+                                        <filter string="Appointment" name="status" domain="[('status', '=', 'appointment_state')]"/>
+                                        <filter string="OP" name="status" domain="[('status', '=', 'op_state')]"/>
+                                        <filter string="Archived" name="filter_archived" domain="[('active', '=', False)]"/>
+                                        <!--Group by-->
+                                        <filter string="Doctor" name="doctor_id" context="{'group_by':'doctor_id'}"/>
+                                        <filter string="Stage" name="status" context="{'group_by':'status'}"/>
+                                </search>
+                        </field>
+                </record>
+                <!--   hospital.consultation search-->
+                <record model="ir.ui.view" id="hospital_consultation_search">
+                        <field name="name">hospital consultation_search</field>
+                        <field name="model">hospital.consultation</field>
+                        <field name="arch" type="xml">
+                                <search>
+                                        <!--search-->
+                                        <field name="patient_id" string="Patient"/>
+                                        <field name="patient_card_id" string="Patient Card"/>
+                                        <field name="consultation_id" string="Token"/>
+                                        <!--filter-->
+                                        <filter string="Archived" name="filter_archived" domain="[('active', '=', False)]"/>
+                                        <!--Group by-->
+                                        <filter string="Consultation Type" name="consultation_type" context="{'group_by':'consultation_type'}"/>
+                                </search>
+                        </field>
+                </record>
+        </data>
 </odoo>

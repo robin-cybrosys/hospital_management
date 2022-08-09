@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from odoo import models, fields, api
 
 
@@ -11,10 +10,10 @@ class HospitalAppointment(models.Model):
 
     patient_card_id = fields.Many2one(
         'hospital.management', string="Patient Card",
-        help="Enter name of the Patient")
+        help="Enter name of the Patient",)
     patient_id = fields.Many2one(
         related='patient_card_id.patient_id',
-        string='Patient',
+        string='Patient',store=True,
         readonly=True)
     doctor_id = fields.Many2one(
         'hr.employee', domain="[('job_id', '=', 'Doctor')]", required=True)

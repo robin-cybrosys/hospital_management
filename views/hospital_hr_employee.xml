@@ -10,8 +10,7 @@
                     <field name="currency_id" invisible="True"/>
                 </xpath>
                 <xpath expr="//field[@name='currency_id']" position="after">
-                    <field name="fee" widget="monetary" readonly="False"
-                           attrs="{'invisible': [('job_title','!=', 'Doctor'),('job_id','!=', 'Doctor')]}"/>
+                    <field name="fee" widget="monetary" readonly="False" attrs="{'invisible': [('job_title','!=', 'Doctor'),('job_id','!=', 'Doctor')]}"/>
                 </xpath>
             </field>
         </record>

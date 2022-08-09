@@ -14,29 +14,24 @@
                 </tree>
             </field>
         </record>
-
         <!-- actions opening views-->
-        <record model="ir.actions.act_window"
-                id="hospital_management.action_window">
+        <record model="ir.actions.act_window" id="hospital_management.action_window">
             <field name="name">Patient Cards</field>
             <field name="res_model">hospital.management</field>
             <field name="view_mode">kanban,tree,form</field>
         </record>
-
         <!-- Action(1): to op_list -->
         <record model="ir.actions.act_window" id="hospital_op_action">
             <field name="name">OP Tickets</field>
             <field name="res_model">hospital.out_patient</field>
             <field name="view_mode">kanban,tree,form</field>
         </record>
-
         <!-- Action(2): to consultation_list -->
         <record model="ir.actions.act_window" id="hospital_consult_action">
             <field name="name">Consultation</field>
             <field name="res_model">hospital.consultation</field>
             <field name="view_mode">tree,form</field>
         </record>
-
         <!-- Action(3): to disease_list -->
         <record model="ir.actions.act_window" id="hospital_disease_action">
             <field name="name">Diseases</field>
@@ -50,14 +45,12 @@
             <field name="res_model">hospital.treatment</field>
             <field name="view_mode">tree,form</field>
         </record>
-
         <!-- Action to Appointment_list -->
         <record model="ir.actions.act_window" id="hospital_appoint_action">
             <field name="name">Appointment</field>
             <field name="res_model">hospital.appointment</field>
             <field name="view_mode">kanban,tree,form</field>
         </record>
-        
         <!--  Action to Reporting  -->
         <record model="ir.actions.act_window" id="hospital_report_wiz_action">
             <field name="name">Patient Report</field>
@@ -65,45 +58,25 @@
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
-
         <!-- Title menu  -->
-        <menuitem name="Hospital Management" id="hospital_root_menu"
-                  web_icon="static/description/icon.png" sequence="-10"/>
-
+        <menuitem name="Hospital Management" id="hospital_root_menu" web_icon="static/description/icon.png" sequence="-10"/>
         <!--  menu categories  -->
-        <menuitem name="Patients" id="hospital_patient_menu" sequence="1"
-                  parent="hospital_root_menu"/>
-        <menuitem name="OP" id="hospital_op_parent_menu" sequence="2"
-                  parent="hospital_root_menu" action="hospital_op_action"/>
-        <menuitem name="Appointments" id="appointment_parent_menu" sequence="3"
-                  parent="hospital_root_menu" action="hospital_appoint_action"/>
-        <menuitem name="Reporting" id="reporting_parent_menu" sequence="4"
-                  parent="hospital_root_menu"/>
-        <menuitem name="Configuration" id="configuration_parent_menu"
-                  sequence="5" parent="hospital_root_menu"/>
-
+        <menuitem name="Patients" id="hospital_patient_menu" sequence="1" parent="hospital_root_menu"/>
+        <menuitem name="OP" id="hospital_op_parent_menu" sequence="2" parent="hospital_root_menu" action="hospital_op_action"/>
+        <menuitem name="Appointments" id="appointment_parent_menu" sequence="3" parent="hospital_root_menu" action="hospital_appoint_action"/>
+        <menuitem name="Reporting" id="reporting_parent_menu" sequence="4" parent="hospital_root_menu"/>
+        <menuitem name="Configuration" id="configuration_parent_menu" sequence="5" parent="hospital_root_menu"/>
         <!-- menus>>actions -->
-        <menuitem name="Patient Cards" id="hospital_cards_menu"
-                  parent="hospital_patient_menu"
-                  action="hospital_management.action_window"/>
+        <menuitem name="Patient Cards" id="hospital_cards_menu" parent="hospital_patient_menu" action="hospital_management.action_window"/>
 
-        <menuitem name="OP Tickets" id="hospital_op_menu"
-                  parent="hospital_op_parent_menu" action="hospital_op_action"/>
+        <menuitem name="OP Tickets" id="hospital_op_menu" parent="hospital_op_parent_menu" action="hospital_op_action"/>
 
-        <menuitem name="Patient Reports" id="patient_report_menu"
-                  parent="reporting_parent_menu"
-                  action="hospital_report_wiz_action"/>
+        <menuitem name="Patient Reports" id="patient_report_menu" parent="reporting_parent_menu" action="hospital_report_wiz_action"/>
 
-        <menuitem name="Consultation" id="hospital_consult_menu"
-                  parent="hospital_op_parent_menu"
-                  action="hospital_consult_action"/>
+        <menuitem name="Consultation" id="hospital_consult_menu" parent="hospital_op_parent_menu" action="hospital_consult_action"/>
 
-        <menuitem name="Diseases" id="hospital_disease_menu"
-                  parent="configuration_parent_menu"
-                  action="hospital_disease_action"/>
+        <menuitem name="Diseases" id="hospital_disease_menu" parent="configuration_parent_menu" action="hospital_disease_action"/>
 
-        <menuitem name="Medicines" id="hospital_medicine_menu"
-                  parent="configuration_parent_menu"
-                  action="hospital_treatment_action"/>
+        <menuitem name="Medicines" id="hospital_medicine_menu" parent="configuration_parent_menu" action="hospital_treatment_action"/>
     </data>
 </odoo>

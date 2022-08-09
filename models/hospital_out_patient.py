@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from odoo import models, fields, api
 
 
@@ -109,19 +108,6 @@ class OutPatient(models.Model):
             'type': 'ir.actions.act_window'
 
         }
-
-    # def print_sample_report(self):
-    #     data = {
-    #         'model_id': self.id,
-    #         'to_date': self.to_date,
-    #         'from_date': self.from_date,
-    #         'patient_id': self.patient_id.id,
-    #         # 'vehicle_name': self.vehicle_id.vehicle_name
-    #     }
-    # docids = self.env['purchase.order'].search([]).ids
-    # return self.env.ref(
-    #     'hospital.out_patient.action_hospital_report_pdf').report_action(
-    #     None, data=data)
 
 
 # inheriting account.move and adding tokens (M2o-relation)

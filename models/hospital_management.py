@@ -1,8 +1,5 @@
 from datetime import date
-
 from odoo import models, fields, api
-
-# patient card
 from odoo.exceptions import ValidationError
 
 
@@ -22,6 +19,7 @@ class HospitalManagement(models.Model):
     street = fields.Char(related='patient_id.street', readonly=False)
     street2 = fields.Char(related='patient_id.street2', readonly=False)
     zip = fields.Char(related='patient_id.zip', readonly=False)
+    email = fields.Char(related='patient_id.email', readonly=False)
     city = fields.Char(related='patient_id.city', readonly=False)
     state_id = fields.Many2one(related='patient_id.state_id', readonly=False)
     country_id = fields.Many2one(related='patient_id.country_id',
@@ -55,6 +53,7 @@ class HospitalManagement(models.Model):
                         rec.age = str(
                             today.month - month) + " Months "
                     if month >= today.month and day > today.day:
+                        # pass
                         raise ValidationError(
                             "Enter a valid Date of birth")
                 if year != today.year:

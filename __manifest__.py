@@ -33,7 +33,7 @@
         'views/hospital_res_partner.xml',
         'views/hospital_search_filters.xml',
         'views/hospital_hr_employee.xml',
-        'views/hospital_form_views.xml',
+        'views/hospital_management_views.xml',
         'views/hospital_views.xml',
         'views/hospital_op_views.xml',
         'views/hospital_consult_views.xml',
