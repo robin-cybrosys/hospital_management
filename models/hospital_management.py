@@ -70,3 +70,13 @@ class HospitalManagement(models.Model):
             'hospital.patient')
         res = super(HospitalManagement, self).create(vals)
         return res
+
+
+# class ModelName(models.Model):
+#     _name = 'test.test1'
+#     _inherits = {'hospital.management': 'patient_id'}
+#
+#     @api.onchange('patient_id')
+#     def change(self):
+#         print(self.email)
+        # hospital_management.access_test_test1, access_test_test1, hospital_management.model_test_test1, base.group_user, 1, 1, 1, 1

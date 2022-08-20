@@ -30,3 +30,5 @@ hospital_management.access_admin_treatment,access_hospital_treatment,hospital_ma
 hospital_management.access_admin_appointment,access_hospital_appointment,hospital_management.model_hospital_appointment,base.group_user,1,1,1,1
 hospital_management.access_admin_medicine,access_hospital_medicine,hospital_management.model_hospital_medicine,base.group_user,1,1,1,1
 hospital_management.access_admin_report,access_report_report_out_patient,hospital_management.model_hospital_report_wizard,base.group_user,1,1,1,1
+
+

@@ -17,12 +17,14 @@
         <!-- actions opening views-->
         <record model="ir.actions.act_window" id="hospital_management.action_window">
             <field name="name">Patient Cards</field>
+
             <field name="res_model">hospital.management</field>
             <field name="view_mode">kanban,tree,form</field>
         </record>
         <!-- Action(1): to op_list -->
         <record model="ir.actions.act_window" id="hospital_op_action">
             <field name="name">OP Tickets</field>
+<!--            <field name="res_model">test.test1</field>-->
             <field name="res_model">hospital.out_patient</field>
             <field name="view_mode">kanban,tree,form</field>
         </record>
