@@ -7,7 +7,7 @@
 
     'summary': """Complete Hospital Management Package""",
 
-    'author': "Cybrosys Technologies",
+    'author': "R",
 
     'website': "http://www.cybrosys.com",
 
